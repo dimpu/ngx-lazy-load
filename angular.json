@@ -1,0 +1,141 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "",
+  "projects": {
+    "ngx-lazy-load": {
+      "projectType": "application",
+      "schematics": {
+        "@nrwl/workspace:component": {
+          "style": "scss"
+        }
+      },
+      "root": "apps/ngx-lazy-load",
+      "sourceRoot": "apps/ngx-lazy-load/src",
+      "prefix": "ngx-lazy-load",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/ngx-lazy-load",
+            "index": "apps/ngx-lazy-load/src/index.html",
+            "main": "apps/ngx-lazy-load/src/main.ts",
+            "polyfills": "apps/ngx-lazy-load/src/polyfills.ts",
+            "tsConfig": "apps/ngx-lazy-load/tsconfig.app.json",
+            "assets": [
+              "apps/ngx-lazy-load/src/favicon.ico",
+              "apps/ngx-lazy-load/src/assets"
+            ],
+            "styles": ["apps/ngx-lazy-load/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/ngx-lazy-load/src/environments/environment.ts",
+                  "with": "apps/ngx-lazy-load/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "ngx-lazy-load:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "ngx-lazy-load:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "ngx-lazy-load:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/ngx-lazy-load/tsconfig.app.json",
+              "apps/ngx-lazy-load/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/ngx-lazy-load/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/ngx-lazy-load/jest.config.js",
+            "tsConfig": "apps/ngx-lazy-load/tsconfig.spec.json",
+            "setupFile": "apps/ngx-lazy-load/src/test-setup.ts"
+          }
+        }
+      }
+    },
+    "ngx-lazy-load-e2e": {
+      "root": "apps/ngx-lazy-load-e2e",
+      "sourceRoot": "apps/ngx-lazy-load-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/ngx-lazy-load-e2e/cypress.json",
+            "tsConfig": "apps/ngx-lazy-load-e2e/tsconfig.e2e.json",
+            "devServerTarget": "ngx-lazy-load:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "ngx-lazy-load:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": "apps/ngx-lazy-load-e2e/tsconfig.e2e.json",
+            "exclude": ["**/node_modules/**", "!apps/ngx-lazy-load-e2e/**"]
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "warnings": {
+      "typescriptMismatch": false,
+      "versionMismatch": false
+    },
+    "defaultCollection": "@nrwl/angular"
+  },
+  "schematics": {
+    "@nrwl/angular:application": {
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
+    },
+    "@nrwl/angular:library": {
+      "unitTestRunner": "jest"
+    }
+  },
+  "defaultProject": "ngx-lazy-load"
+}
